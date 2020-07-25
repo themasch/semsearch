@@ -1,0 +1,16 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+    _instanceof:
+        Symfony\Component\Console\Command\Command:
+            tags: ['console.command']
+
+    masch\SemSearch\:
+        resource: '../../src/*'
+
+    app_console:
+        class: Symfony\Component\Console\Application
+        public: true
