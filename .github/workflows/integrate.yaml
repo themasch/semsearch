@@ -1,0 +1,30 @@
+name: "Integrate"
+
+on: [push]
+
+jobs:
+    code-style:
+        name: "check php code style"
+        runs-on: "ubunut-latest"
+        strategy:
+            matrix:
+                php-version:
+                    - "7.4"
+                dependencies:
+                    - "locked"
+        steps:
+          - name: "Checkout"
+            uses: "actions/checkout@v2.3.1"
+
+          - name: "Install PHP with extensions"
+            uses: "shivammathur/setup-php@v2"
+            with:
+              coverage: "none"
+              extensions: "${{ env.PHP_EXTENSIONS }}"
+              php-version: "${{ matrix.php-version }}"
+
+          - name: "install composer dependencies"
+            run: "composer install --no-interaction --no-progress --no-suggest"
+
+          - name: "run phpcs"
+            run: "composer run phpcs"
